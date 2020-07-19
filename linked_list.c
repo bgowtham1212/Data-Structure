@@ -1,7 +1,8 @@
-
 /******************************************************************************
 
-                            Welcome to Data Structure
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
 
 *******************************************************************************/
 
@@ -100,12 +101,13 @@ int swap( int index1,  int index2)
 
             struct node *actual1,*actual2,*temp = {(struct node*)malloc(sizeof(struct node)),(struct node*)malloc(sizeof(struct node))};
             actual2 = prev2->link;
-            temp = actual1->link;
+
               // printf("\n data of act1 %d",actual1->data);
                printf("\n data of act2 %d",actual2->data);
             if((prev1 != root)||(index1!=0))
                 {
                     actual1 = prev1->link;
+                    temp = actual1->link;
                     printf("\n data of act1 %d",actual1->data);
                     actual1->link = actual2->link;
                     prev2->link = actual1;
@@ -191,7 +193,7 @@ int Size()
     while (temp != NULL)
     {
     i++;
-    printf("\n Data is %d",temp->data);
+    //printf("\n Data is %d",temp->data);
     temp = temp->link;
     }
     return i;
@@ -204,7 +206,7 @@ int print()
     size = Size();
     for (i = 0; i < size; i++)
     {
-        printf("\n data is %d",temp->data);
+        printf("\n Data is %d\n",temp->data);
         temp = temp->link;
     }
 }
@@ -253,7 +255,7 @@ int main()
         int ind,ind1;
         scanf("%d %d",&ind,&ind1);
         result = swap(ind,ind1);
-        (result == 0)? printf("\n Swapping unsuccessful"):printf("\n Swapping Successful");
+        (result == 0)? printf("\n Swaping unsuccessful"):printf("\n Swaping Successful");
         break;
 
         default:
