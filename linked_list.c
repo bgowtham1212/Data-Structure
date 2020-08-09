@@ -14,7 +14,7 @@ struct node{
 struct node *root ;
 int add()
 {
-    //printf("ent");
+
     struct node *temp = (struct node*)malloc(sizeof(struct node));
     struct node *t = (struct node*)malloc(sizeof(struct node));
     if (root == NULL)
@@ -90,8 +90,7 @@ int swap( int index1,  int index2)
                     i++;
 
                 }
-            //   printf("\n 1st ind %d",prev1->data);
-           // j = i;
+
             prev2 = prev1;
             while (i != index2-1)
                 {
@@ -102,8 +101,6 @@ int swap( int index1,  int index2)
             struct node *actual1,*actual2,*temp = {(struct node*)malloc(sizeof(struct node)),(struct node*)malloc(sizeof(struct node))};
             actual2 = prev2->link;
 
-              // printf("\n data of act1 %d",actual1->data);
-               printf("\n data of act2 %d",actual2->data);
             if((prev1 != root)||(index1!=0))
                 {
                     actual1 = prev1->link;
@@ -139,7 +136,6 @@ int swap( int index1,  int index2)
                     actual2 = actual1->link;
                     actual1->link = actual2->link;
                     actual2->link = actual1;
-                    //actual2->link = temp;
                     prev1->link = actual2;
                 }
             else{
@@ -147,7 +143,6 @@ int swap( int index1,  int index2)
                     actual2 = actual1->link;
                     actual1->link = actual2->link;
                     actual2->link = actual1;
-                    //actual2->link = temp;
                     root = actual2;
                 }
         }
@@ -155,22 +150,27 @@ int swap( int index1,  int index2)
 
 return 1;
 }
-int Remove()
+struct node* Remove(int reverse)
 {
-    int index;
-    scanf("%d",&index);
+    int index = Size()-1;
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+    struct node *temp1 = (struct node*)malloc(sizeof(struct node));
     int size = Size();
+
+    if (!reverse)
+        scanf("%d",&index);
+
     if (index > size -1)
      return 0;
+
     else if (index == 0){
-        struct node *temp = (struct node*)malloc(sizeof(struct node));
         temp = root->link;
+        temp1 = root;
          root->link = NULL;
          root = temp;
     }
     else{
-        struct node *temp = (struct node*)malloc(sizeof(struct node));
-         struct node *temp1 = (struct node*)malloc(sizeof(struct node));
+
         int i = 0;
         temp = root;
         while (i != index-1){
@@ -182,8 +182,32 @@ int Remove()
         temp1->link = NULL;
 
     }
-    print();
+    return temp1;
 
+}
+int reverse()
+{
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+    struct node *temp1 = NULL;
+    int i;
+
+    for ( i = Size() ; i > 0  ; i--){
+      if (temp1 == NULL)
+        temp1  = Remove(1);
+
+      else{
+        temp = temp1;
+        while(temp->link != NULL)
+            temp = temp->link;
+        temp->link = Remove(1);
+      }
+    }
+    temp = temp1;
+      while(temp!=NULL){
+        printf(" \n Reverse data is %d",temp->data);
+        temp = temp->link;
+      }
+    root = temp1;
 }
 int Size()
 {
@@ -193,7 +217,6 @@ int Size()
     while (temp != NULL)
     {
     i++;
-    //printf("\n Data is %d",temp->data);
     temp = temp->link;
     }
     return i;
@@ -216,10 +239,10 @@ int main()
     int action,result,f,i;
     while(1){
 
-    printf("\n Provide the action: \n 1) Append\n 2) Remove \n 3) Size \n 4) print Data \n 5) Insert element \n 6) Swap \n 7) Quit\n");
+    printf("\n Provide the action: \n 1) Append\n 2) Remove \n 3) Size \n 4) print Data \n 5) Insert element \n 6) Swap \n 7) Reverse \n 8) Quit\n");
     scanf("%d",&action);
 
-    if (action == 7)
+    if (action == 8)
     break;
     switch(action)
     {
@@ -230,7 +253,7 @@ int main()
         case 2:
         printf("\n Index to remove? ");
 
-        result = Remove();
+        Remove(0);
         break;
 
         case 3:
@@ -256,6 +279,10 @@ int main()
         scanf("%d %d",&ind,&ind1);
         result = swap(ind,ind1);
         (result == 0)? printf("\n Swaping unsuccessful"):printf("\n Swaping Successful");
+        break;
+
+        case 7:
+        reverse();
         break;
 
         default:
