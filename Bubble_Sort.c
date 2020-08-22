@@ -48,17 +48,29 @@ int print()
 }
 int Sort()
 {
-    //TODO: Sorting
+    printf("\n Sorting");
+    int i,j,temp;
+    for(i = top ; i > 0; i--)
+    {
+        for(j = 0 ; j < i-1 ; j++){
+        if(stack[j] > stack[j+1]){
+            temp = stack[j];
+            stack[j] = stack[j+1];
+            stack[j+1] = temp;
+        }
+
+        }
+    }
 }
 int main()
 {
     int action,result,f,i;
     while(1){
 
-    printf("\n Provide the action: \n 1) Push\n 2) Pop \n 3) Size \n 4) print Data \n g) Swap \n 6) Quit\n");
+    printf("\n Provide the action: \n 1) Push\n 2) Pop \n 3) Size \n 4) print Data \n 5) Swap \n 6) Bubble Sort \n 7) Quit\n");
     scanf("%d",&action);
     int count;
-    if (action == 6)
+    if (action == 7)
     break;
     switch(action)
     {
@@ -94,10 +106,14 @@ int main()
         printf("\n Index to Swap? ");
         int ind,ind1;
         scanf("%d %d",&ind,&ind1);
-        //result = swap(ind,ind1);
+        //result = swap(ind,ind1);    // TODO
         (result == 0)? printf("\n Swaping unsuccessful"):printf("\n Swaping Successful");
         break;
 
+        case 6:
+            printf("Bubble Sort");
+            Sort();
+            break;
         default:
         printf("Action required is invalid\n");
         break;
