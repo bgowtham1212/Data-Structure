@@ -86,7 +86,7 @@ int appendRight(struct node **right_temp,struct node *temp1 ){    //Pointer to p
             }
         }
         else
-            *right_temp = temp1;
+            (*right_temp) = temp1;
 
 }
 int insert(int index)
@@ -274,19 +274,27 @@ int Size()
 }
 int print()
 {
-    struct node *temp = (struct node*)malloc(sizeof(struct node));
-    temp = root;
+    struct node *left = (struct node*)malloc(sizeof(struct node));
+    struct node *right = (struct node*)malloc(sizeof(struct node));
+    //temp = root;
     int i = 0, size;
 
-    while(temp != NULL){
-         printf("\n Left Node Elements are %d\n",temp->data);
-         temp = temp->left;
+    printf("\n Root Node is %d",root->data);
+
+    left = root->left;
+    right = root->right;
+
+    while(left != NULL){
+         printf("\n Left Node Elements are %d\n",left->data);
+         if (left->right != NULL)
+            printf("\n Right Node of %d is %d\n",left->data,left->right->data);
+         left = left->left;
     }
 
-        temp = root;
-        while(temp != NULL){
-         printf("\n Right Node Elements are %d\n",temp->data);
-         temp = temp->right;
+       // temp = root;
+        while(right != NULL){
+         printf("\n Right Node Elements are %d\n",right->data);
+         right = right->right;
     }
 }
 
