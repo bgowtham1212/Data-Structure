@@ -13,26 +13,28 @@ int add()
 {
 
        printf("\n Enter Data to be stored in Queue ");
-       if(front >= SIZE)
-        front = 0;
-       if(front == -1){
+
+       if(front == -1){     //Initial Data push
                   front = 0;
        rear = 0;
        scanf("%d",&Queue[rear]);
        return 0;
        }
-       else if (rear == SIZE-1)
+       else if (rear == SIZE-1)   //Reset Rear if it reaches size & front is not 0.
        {rear = 0;
        scanf("%d",&Queue[rear]);
        return 0;}
        rear++;
-       scanf("%d",&Queue[rear]);
-     printf("Rear is %d",rear);
+       scanf("%d",&Queue[rear]);  //  Normal Push
+
 }
 _Bool isFull()
 {
-    if(((rear==SIZE-1) && (!front))  || (front == rear+1))
+    if(((rear==SIZE-1) && (!front))  | (front == rear+1))
+    {
         return (0==0);
+    }
+
     return (0!=0);
 }
 _Bool isEmpty()
@@ -44,16 +46,17 @@ _Bool isEmpty()
 int pop(void)
 {
 
-    printf("Popping item %d",Queue[front]);
-    printf("front is %d",front);
-   // if (front < rear)
+    printf("\n Popping item %d",Queue[front]);
+
+
    if (front == rear){
     front = -1;
     rear = -1;
    }
-   if (front < rear)
-        front++;
-
+   else
+    front++;
+if (front == SIZE)
+    front = 0;
 
 }
 
@@ -65,46 +68,51 @@ int Size()
 
 int print()
 {
-    printf("Front is %d",front);
-    printf("Rear is %d",rear);
-    if (front <= rear){
-    for (int i = front; i <= rear; i++)
+    int count,element;
+    count = (front<=rear)? rear: SIZE + rear;
+
+    for (int i = front; i <= count; i++)
     {
-        printf("\n Data is %d\n",Queue[i]);
+        element = (front<=rear)? i : i%SIZE ;
+        printf("\n Data is %d\n",Queue[element]);
     }
-    }
-    else{
-    for (int i = front; i <= SIZE + rear ; i++)
-    {
-        printf("\n Data is %d\n",Queue[i%SIZE]);
-    }
-    }
+
 }
 int Sort()
 {
     printf("\n Sorting");
-    int i,j,temp;
-    for(i = rear ; i > front; i--)
+    int i,j,temp,count,left_element,right_element;
+
+    count = (front<rear)? rear: SIZE + rear;
+
+    for(i = count ; i > front; i--)
     {
-        for(j = 0 ; j < i-1 ; j++){
-        if(Queue[j] > Queue[j+1]){
-            temp = Queue[j];
-            Queue[j] = Queue[j+1];
-            Queue[j+1] = temp;
-        }
+        for(j = front ; j < i ; j++)
+        {
+
+        left_element = (front<rear)? j : j%SIZE;
+        right_element = (front<rear)? j+1 : (j+1)%SIZE;
+
+            if(Queue[left_element] > Queue[right_element])
+            {
+                temp = Queue[left_element];
+                Queue[left_element] = Queue[right_element];
+                Queue[right_element] = temp;
+            }
 
         }
     }
+
 }
 int main()
 {
     int action,result,f,i;
     while(1){
 
-    printf("\n Provide the action: \n 1) Push\n 2) Pop \n 3) Size \n 4) print Data \n 5) Swap \n 6) Bubble Sort \n 7) Quit\n");
+    printf("\n Provide the action: \n 1) Push\n 2) Pop \n 3) Size \n 4) print Data \n 5) Bubble Sort \n 6) Quit\n");
     scanf("%d",&action);
     int count;
-    if (action == 7)
+    if (action == 6)
     break;
     switch(action)
     {
@@ -140,18 +148,19 @@ int main()
 
         break;
 
-        case 5:
+       /* case 5:
         printf("\n Index to Swap? ");
         int ind,ind1;
         scanf("%d %d",&ind,&ind1);
         //result = swap(ind,ind1);    // TODO
         (result == 0)? printf("\n Swaping unsuccessful"):printf("\n Swaping Successful");
-        break;
+        break;*/
 
-        case 6:
+        case 5:
             printf("Bubble Sort");
             Sort();
             break;
+
         default:
         printf("Action required is invalid\n");
         break;
