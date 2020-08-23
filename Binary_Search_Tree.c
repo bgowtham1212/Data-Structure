@@ -13,7 +13,7 @@ struct node{
 };
 
 struct node *root ;
-int add()
+/*int add()
 {
     struct node *temp = (struct node*)malloc(sizeof(struct node));
 
@@ -87,6 +87,45 @@ int appendRight(struct node **right_temp,struct node *temp1 ){    //Pointer to p
         }
         else
             (*right_temp) = temp1;
+
+}*/
+int add()
+{
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+
+        printf("Enter data ");
+        scanf("%d",&temp->data);
+        temp->right = NULL;
+        temp->left = NULL;
+
+    if (root == NULL)
+    {
+        root = temp;
+    return 1;
+    }
+    else
+    {
+
+        struct node *temp1 = (struct node*)malloc(sizeof(struct node));
+        struct node *last_node = (struct node*)malloc(sizeof(struct node));
+        temp1 = root;
+        while(temp1!= NULL){
+                last_node = temp1;
+            if( temp1->data > temp->data ){
+               // last_node = temp1->right;
+                temp1 = temp1->left;
+            }
+            else{
+             //   last_node = temp1->left;
+                temp1 = temp1->right;
+            }
+        }
+        if(last_node->data > temp->data)
+            last_node->left = temp;
+        else
+            last_node->right = temp;
+
+    }
 
 }
 int insert(int index)
@@ -294,6 +333,8 @@ int print()
        // temp = root;
         while(right != NULL){
          printf("\n Right Node Elements are %d\n",right->data);
+                  if (right->left != NULL)
+            printf("\n Left Node of %d is %d\n",right->data,right->left->data);
          right = right->right;
     }
 }
