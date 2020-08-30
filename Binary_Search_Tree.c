@@ -254,49 +254,36 @@ return 1;
 }
 int Remove()
 {
-    int index;
-    scanf("%d",&index);
+    int Data;
+    scanf("%d",&Data);
     int size = Size();
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+    struct node *parent_node = (struct node*)malloc(sizeof(struct node));
 
-    if ((index > size -1) | (index < 0))
-     return 0;
-
-    else if (index == 0){
-
-        struct node *temp = (struct node*)malloc(sizeof(struct node));
-        temp = root->right;
-         root->right = NULL;
-         temp->left = NULL;
-         root = temp;
-    }
-    else{
-        struct node *temp = (struct node*)malloc(sizeof(struct node));
-        struct node *right = (struct node*)malloc(sizeof(struct node));
-        struct node *node_to_remove = (struct node*)malloc(sizeof(struct node));
-
-        int i = 0;
-        temp = root;
-
-        while (i != index-1){
+     temp = root;
+     while(temp->data != Data){
+            parent_node = temp;
+        if (temp->data > Data)
+            temp = temp->left;
+        else
             temp = temp->right;
-            i++;
-        }
+     }
+     if (temp == parent_node->left)
+     {
+         if((temp->left == NULL) & (temp->right == NULL))
+            parent_node->left = NULL;
+        else
+            parent_node->left = temp->left;
 
-        node_to_remove = temp->right;
-        right = node_to_remove->right;
+     }
+     else{
+         if(temp->right == NULL)
+            parent_node->right = NULL;
+        else
+            parent_node->right = temp->right;
 
-        if(right!= NULL)
-            right->left = temp;
-
-        temp->right = right;
-
-        node_to_remove->right = NULL;
-        node_to_remove->left = NULL;
-
-
-    }
- //   print();
-
+     }
+     free(temp);
 }
 int Size()
 {
@@ -356,7 +343,7 @@ int main()
         break;
 
         case 2:
-        printf("\n Index to remove? ");
+        printf("\n Data to remove? ");
 
         result = Remove();
         break;
