@@ -260,10 +260,10 @@ int Remove()
     int size = Size();
     struct node *temp = (struct node*)malloc(sizeof(struct node));
     struct node *parent_node = (struct node*)malloc(sizeof(struct node));
-    struct node *parent_Right_Max = (struct node*)malloc(sizeof(struct node));
+    struct node *parent_Right_Min = (struct node*)malloc(sizeof(struct node));
     struct node *parent_Left_Max = (struct node*)malloc(sizeof(struct node));
     struct node *Left_Max = (struct node*)malloc(sizeof(struct node));
-    struct node *Right_Max = (struct node*)malloc(sizeof(struct node));
+    struct node *Right_Min = (struct node*)malloc(sizeof(struct node));
      temp = root;
      // Traverse the node to be deleted.
      while(temp->data != Data){
@@ -281,25 +281,41 @@ int Remove()
                 if((temp->left!= NULL) && (temp->right != NULL)){
                         printf("Choose 0 for Left Max or 1 for Right Min");
                         scanf("%d",&i);
-                        if(i){
+                        if(!i){
                         Left_Max = temp->left;
                             while(Left_Max->right != NULL){
                                     parent_Left_Max = Left_Max;
                                  Left_Max = Left_Max->right;}
-                            parent_Left_Max = NULL;
-                                 Left_Max->left = temp->left;
-                                 parent_node->left = Left_Max;
+
+        parent_node->left = Left_Max;
+        parent_Left_Max->right = NULL;
+        parent_node->left->left = temp->left;
+        parent_node->left->right = temp->right;
+        temp->left = temp->right = NULL;
+                               //  Left_Max->left = temp->left;   //Left of the node to be deleted is copied to right most node of left side
+                                // parent_node->left = Left_Max;  //The node is replaced instead of the deleted node.
                         }
                         else{
-                        Right_Max = temp->right;
-                            while(Right_Max->left != NULL){
-                           parent_Right_Max = Right_Max;
-                                 Right_Max = Right_Max->left;}
-                            parent_Right_Max = NULL;
-                                 Right_Max->right = temp->right;
-                                 parent_node->right = Right_Max;
+                        Right_Min = temp->right;
+                        if(Right_Min->left!= NULL){
+                            while(Right_Min->left != NULL){
+                           parent_Right_Min = Right_Min;
+                                 Right_Min = Right_Min->left;}
+
+                             parent_node->left = Right_Min;
+                              parent_Right_Min->left = NULL;
+                            parent_node->left->right = temp->right;
+                            parent_node->left->left = temp->left;
+                            temp->left = temp->right = NULL;}
+                            else{
+                                parent_node->left = Right_Min;
+                                 parent_node->left->left = temp->left;
+                                 temp->left = temp->right = NULL;
+                          //       parent_node->right = Right_Max;}
+
                         }
                 }
+        }
            else if(temp->left != NULL){
                 parent_node->left = temp->left;
                 temp->left = NULL;}
@@ -345,6 +361,7 @@ int print()
 {
     struct node *left = (struct node*)malloc(sizeof(struct node));
     struct node *right = (struct node*)malloc(sizeof(struct node));
+    struct node *right_left = (struct node*)malloc(sizeof(struct node));
 
     int i = 0, size;
 
@@ -363,8 +380,10 @@ int print()
        // temp = root;
         while(right != NULL){
          printf("\n Right Node Elements are %d\n",right->data);
-                  while (right->left != NULL){
-            printf("\n Left Node of %d is %d\n",right->data,right->left->data);}
+         right_left = right->left;
+                  while (right_left != NULL){
+            printf("\n Left Node of %d is %d\n",right->data,right->left->data);
+            right_left = right_left->left;}
          right = right->right;
     }
 }
